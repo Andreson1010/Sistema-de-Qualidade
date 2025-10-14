@@ -13,7 +13,7 @@ from datetime import datetime
 # Gerar dados fictícios com valores realistas
 np.random.seed(42)
 
-peso = np.random.uniform(100, 500, 1250)
+peso = np.random.uniform(100, 501, 1250)
 temperatura_interna = np.random.uniform(60, 100, 1250)
 ph = np.random.uniform(3.5, 7.5, 1250)
 nivel_umidade = np.random.uniform(5, 30, 1250)
