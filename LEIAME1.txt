@@ -1,0 +1,100 @@
+PROJETO 6 — VERSIONAMENTO E CONTROLE DE DADOS EM PIPELINES CI/CD COM GITHUB ACTIONS E KUBERNETES
+
+RESUMO
+Este documento descreve como preparar o ambiente, treinar o modelo, construir a imagem Docker, publicar e acessar no Minikube e validar o pipeline CI/CD localmente com Act.
+
+1. PRÉ-REQUISITOS
+1.1 Ferramentas necessárias
+- Docker Desktop instalado e em execução (mantenha a janela aberta)
+- Kubectl instalado
+- Minikube instalado
+- Conda (ou Miniconda) instalado
+- Git instalado
+- Act instalado para testar GitHub Actions localmente
+
+1.2 Validações rápidas
+kubectl version --client
+minikube version
+
+1.3 Links úteis
+Git: https://git-scm.com/
+Act: https://nektosact.com/installation/index.html
+
+2. CONFIGURAÇÃO DO AMBIENTE PYTHON
+2.1 Criação e ativação do ambiente virtual
+conda create --name pipep6 python=3.12
+conda activate pipep6  (em bash/zsh)  |  no Windows PowerShell: conda activate pipep6
+
+2.2 Instalação do pip e das dependências
+conda install pip
+pip install -r requirements.txt
+
+3. TREINAMENTO DO MODELO
+3.1 Execução do treinamento local
+python treinamento/dsa_treina_modelo.py
+
+4. BUILD DA IMAGEM DOCKER
+4.1 Construção da imagem
+Certifique-se de que o Docker Desktop está ativo.
+docker build -t dsa-p6-app:latest .
+
+4.2 Observação sobre arquitetura Apple Silicon
+Ao usar o Act em Apple Silicon (Família M), pode ser necessário forçar a arquitetura linux/amd64.
+
+5. MINIKUBE E CONTEXTO KUBERNETES
+5.1 Início do cluster e confirmação do contexto
+minikube start
+kubectl config current-context   (deve retornar: minikube)
+
+5.2 Carga da imagem local no Minikube
+minikube image load dsa-p6-app:latest
+
+6. DEPLOY NO KUBERNETES
+6.1 Aplicação dos manifestos
+kubectl apply -f k8s/deployment.yaml
+kubectl apply -f k8s/service.yaml
+kubectl get pods
+
+6.2 Acesso à aplicação
+minikube service dsa-p6-app-service
+
+7. GIT E INICIALIZAÇÃO DO REPOSITÓRIO
+7.1 Configuração e primeiro commit
+git config --global user.email "aluno@teste.com"
+git config --global user.name "Aluno DSA"
+git init
+git add .
+git commit -m "Versão inicial do Projeto DSA"
+
+8. TESTE DO CI/CD LOCAL COM ACT
+8.1 Execução do fluxo local
+act push
+
+8.2 Observação para Apple Silicon
+act push --container-architecture linux/amd64
+
+9. CICLO DE ATUALIZAÇÃO
+9.1 Atualização do código e execução do pipeline local
+git add .
+git commit -m "Atualização do projeto"
+act push
+
+9.2 Atualização da imagem no cluster local
+minikube image load dsa-p6-app:latest
+kubectl set image deployment/dsa-p6-app-deployment dsa-p6-app-container=dsa-p6-app:latest
+
+10. DICAS DE VERIFICAÇÃO E DIAGNÓSTICO (TROUBLESHOOTING)
+10.1 Verificação de pods com erro (CrashLoopBackOff)
+kubectl get pods
+kubectl describe pod <nome-do-pod>
+kubectl logs <nome-do-pod>
+
+10.2 Problemas comuns e soluções rápidas
+- Imagem não encontrada: executar minikube image load dsa-p6-app:latest antes do deploy/atualização
+- Contexto incorreto do kubectl: verificar com kubectl config current-context
+- Docker inativo: abrir o Docker Desktop e aguardar a inicialização completa
+
+11. LIMPEZA (OPCIONAL)
+11.1 Desativação e remoção do ambiente
+conda deactivate
+conda remove --name pipep6 --all

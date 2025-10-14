@@ -1,0 +1,42 @@
+# Especifica a versão da API Kubernetes usada
+apiVersion: apps/v1
+
+# Define que este recurso é um Deployment
+kind: Deployment
+
+# Metadados do Deployment
+metadata:
+  # Nome do Deployment
+  name: aivk-p6-app-deployment
+
+# Especificação do Deployment
+spec:
+  # Define o número de réplicas (instâncias) do pod
+  replicas: 1
+
+  # Seleciona os pods que fazem parte deste Deployment
+  selector:
+    matchLabels:
+      # Rótulo usado para selecionar os pods
+      app: aivk-p6-app
+
+  # Modelo para criação dos pods
+  template:
+    metadata:
+      labels:
+        # Aplica o mesmo rótulo aos pods criados
+        app: aivk-p6-app
+
+    spec:
+      # Lista de contêineres no pod
+      containers:
+      - name: aivk-p6-app-container  # Nome do contêiner
+        image: aivk-p6-app:latest    # Imagem do contêiner 
+        imagePullPolicy: Never      # Não tenta baixar a imagem do Docker Hub
+        ports:
+        - containerPort: 8501       # Porta exposta pelo contêiner
+
+
+
+
+

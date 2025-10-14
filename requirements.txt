@@ -1,0 +1,41 @@
+altair==5.5.0  # Biblioteca para visualização de dados estatísticos
+attrs==25.1.0  # Biblioteca para criação de classes com atributos
+blinker==1.9.0  # Sistema de sinais para comunicação entre objetos
+cachetools==5.5.2  # Ferramentas para cache e memoização
+certifi==2025.1.31  # Certificados SSL/TLS para requests
+charset-normalizer==3.4.1  # Detecção automática de encoding de caracteres
+click==8.1.8  # Framework para criação de interfaces de linha de comando
+gitdb==4.0.12  # Interface de banco de dados para Git
+GitPython==3.1.44  # Interface Python para Git
+idna==3.10  # Suporte para Internationalized Domain Names
+Jinja2==3.1.6  # Motor de templates para Python
+joblib==1.4.2  # Ferramentas para paralelização e serialização
+jsonschema==4.23.0  # Validação de dados JSON
+jsonschema-specifications==2024.10.1  # Especificações para jsonschema
+MarkupSafe==3.0.2  # Implementação segura de strings para templates
+narwhals==1.29.1  # Framework unificado para DataFrames
+numpy==2.2.3  # Computação numérica e arrays multidimensionais
+packaging==24.2  # Utilitários para versionamento de pacotes
+pandas==2.2.3  # Manipulação e análise de dados estruturados
+pillow==11.1.0  # Biblioteca para processamento de imagens
+protobuf==5.29.3  # Serialização de dados estruturados
+pyarrow==19.0.1  # Interface Python para Apache Arrow
+pydeck==0.9.1  # Visualização de mapas 3D para Streamlit
+python-dateutil==2.9.0.post0  # Extensões para manipulação de datas
+pytz==2025.1  # Suporte para fusos horários
+referencing==0.36.2  # Resolução de referências JSON
+requests==2.32.3  # Biblioteca HTTP para Python
+rpds-py==0.23.1  # Estruturas de dados persistentes
+scikit-learn==1.6.1  # Machine learning e análise de dados
+scipy==1.15.2  # Computação científica e estatística
+six==1.17.0  # Compatibilidade Python 2/3
+smmap==5.0.2  # Mapeamento de memória para Git
+streamlit==1.43.0  # Framework para criação de aplicações web de dados
+tenacity==9.0.0  # Biblioteca para retry e tentativas repetidas
+threadpoolctl==3.5.0  # Controle de threads para bibliotecas científicas
+toml==0.10.2  # Parser para arquivos TOML
+tornado==6.4.2  # Framework web assíncrono
+typing_extensions==4.12.2  # Extensões para sistema de tipos
+tzdata==2025.1  # Dados de fusos horários
+urllib3==2.3.0  # Cliente HTTP de baixo nível
+watchdog==6.0.0  # Monitoramento de mudanças em arquivos
