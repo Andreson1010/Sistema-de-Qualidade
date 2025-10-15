@@ -6,7 +6,7 @@
 
 # Um workflow recomendado seria assim:
 
-name: DSAProjeto6
+name: AIVKProjeto6
 
 on:
   push:
@@ -38,7 +38,7 @@ jobs:
           pip install -r requirements.txt
 
       - name: Treinar modelo
-        run: python treinamento/dsa_treina_modelo.py
+        run: python treinamento/aivk_treina_modelo.py
 
       - name: Login no Docker Hub (opcional, necessário apenas se for enviar a imagem)
         uses: docker/login-action@v3
