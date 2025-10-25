@@ -58,7 +58,8 @@ Baseado no documento, este comando faz parte do passo 4.1 do pipeline de CI/CD, 
     - É executado após o treinamento do modelo (passo 3)
     - Prepara a imagem para ser carregada no Minikube (passo 5.2)
     - É usado no deploy do Kubernetes (passo 6)
-A imagem construída contém a aplicação Python com o modelo treinado, pronta para ser executada em containers no ambiente Kubernetes.
+A imagem construída contém a aplicação Python com o modelo treinado, pronta para ser executada 
+em containers no ambiente Kubernetes.
 
 4.2 Observação sobre arquitetura Apple Silicon
 Ao usar o Act em Apple Silicon (Família M), pode ser necessário forçar a arquitetura linux/amd64.
@@ -178,9 +179,7 @@ Por que são importantes?
 - **Monitoramento**: Verifica se a aplicação está funcionando corretamente
 
 Após estes comandos, a aplicação estará rodando no Kubernetes e pronta para ser acessada 
-via: 
-
-`minikube service aivk-p6-app-service`.
+via `minikube service aivk-p6-app-service`.
 
 6.2 Acesso à aplicação
 
@@ -263,9 +262,6 @@ neste terminal disponibilizado pela instalação.
     Adiciona todos os arquivos ao staging
     Cria o primeiro commit com uma mensagem descritiva
 
-7. git log --oneline --decorate --graph --all
-    - Commits - histórico completo, todas as branches
-
 
 8. TESTE DO CI/CD LOCAL COM ACT
 
@@ -314,7 +310,7 @@ Resumo: `act push` simula localmente o que aconteceria quando você fizer push p
 -  Ao executar o comando, será pedido para escolher um tamanho de iamgem.
 Para este projeto escolha imagem Medium.
 
-8.3 Observação para Apple Silicon
+8.2 Observação para Apple Silicon
 act push --container-architecture linux/amd64
 
 9. CICLO DE ATUALIZAÇÃO
@@ -324,21 +320,8 @@ git commit -m "Atualização do projeto"
 act push
 
 9.2 Atualização da imagem no cluster local
-a- Executar o comando:
- ```` minikube image load aivk-p6-app:latest ````
-
-    - o que faz: uma imagem docker nova foi contruída por causa do workflow ci-cd.yml. Assim, 
-     temos carregar novamente a imagem docker criada para dentro do cluster Kubernetes
-
-b - executar o comando :
-````kubectl set image deployment/aivk-p6-app-deployment aivk-p6-app-container=aivk-p6-app:latest ````
-
-    - o que faz: atualiza a imagem do container aivk-p6-app-container no 
-    Deployment aivk-p6-app-deployment para aivk-p6-app:latest, 
-    disparando um rolling update.
-    - Pré-requisitos: o nome do container no Deployment deve ser 
-    exatamente aivk-p6-app-container; a imagem precisa estar disponível para 
-    os nodes (via minikube image load ou registry). 
+minikube image load aivk-p6-app:latest
+kubectl set image deployment/aivk-p6-app-deployment aivk-p6-app-container=aivk-p6-app:latest
 
 10. DICAS DE VERIFICAÇÃO E DIAGNÓSTICO (TROUBLESHOOTING)
 10.1 Verificação de pods com erro (CrashLoopBackOff)
