@@ -1,0 +1,71 @@
+# Workflow de CI/CD para o Projeto AIVK
+# Este pipeline automatiza o processo de treinamento de modelo, construção de imagem Docker
+# e validação de manifestos Kubernetes quando há mudanças nos arquivos importantes.
+# Ele é acionado automaticamente em dois cenários:
+  # Quando há um push na branch main
+  # Quando há modificações nos seguintes arquivos ou diretórios:
+    # modelos/**
+    # treinamento/**
+    # appaivk.py
+    # requirements.txt
+    # Dockerfile
+
+name: AIVKProjeto6
+
+# Configuração de triggers - define quando o workflow deve ser executado
+on:
+  push:
+    branches:
+      - main  # Executa apenas na branch main
+    paths:
+      # Executa apenas se houver mudanças nestes arquivos/pastas específicos
+      - 'modelos/**'      # Mudanças nos modelos de ML
+      - 'treinamento/**'  # Mudanças nos scripts de treinamento
+      - 'appaivk.py'      # Mudanças na aplicação principal
+      - 'requirements.txt' # Mudanças nas dependências
+      - 'Dockerfile'      # Mudanças na configuração do container
+
+jobs:
+  build-test:
+    # Ambiente de execução: Ubuntu com container específico para GitHub Actions
+    runs-on: ubuntu-latest
+    container:
+      image: catthehacker/ubuntu:act-latest
+    
+    steps:
+      # Etapa 1: Baixar o código do repositório para o ambiente de execução
+      - name: Checkout do código
+        uses: actions/checkout@v4
+
+      # Etapa 2: Instalar Node.js (necessário para algumas ferramentas do projeto)
+      - name: Instalar Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      # Etapa 3: Configurar Python 3.12 (versão específica do projeto)
+      - name: Configurar Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: 3.12
+
+      # Etapa 4: Instalar todas as dependências Python do projeto
+      - name: Instalar dependências Python
+        run: |
+          pip install --upgrade pip
+          pip install -r requirements.txt
+
+      # Etapa 5: Treinar novo modelo de ML com dados atualizados
+      - name: Treinar modelo
+        run: python treinamento/aivk_treina_modelo.py
+
+      # Etapa 6: Construir imagem Docker com o modelo recém-treinado
+      - name: Construir imagem Docker com novo modelo
+        run: docker build -t aivk-p6-app:latest .
+
+      # Etapa 7: Validar sintaxe e configuração dos manifestos Kubernetes
+      - name: Validar manifestos Kubernetes
+        uses: stefanprodan/kube-tools@v1
+        with:
+          command: |
+            kubeconform -summary -strict k8s/

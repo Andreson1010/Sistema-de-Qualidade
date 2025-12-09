@@ -1,0 +1,27 @@
+# Especifica a versão da API Kubernetes usada
+apiVersion: v1
+
+# Define que este recurso é um Service
+kind: Service
+
+# Metadados do Service
+metadata:
+  # Nome do Service
+  name: aivk-p6-app-service
+
+# Especificação do Service
+spec:
+  # Define o tipo do Service como NodePort (exposição externa)
+  type: NodePort
+
+  # Seleciona os pods aos quais este Service irá encaminhar o tráfego
+  selector:
+    # Deve corresponder ao rótulo dos pods do Deployment
+    app: aivk-p6-app
+
+  # Configuração das portas do Service
+  ports:
+    - protocol: TCP      # Define o protocolo de comunicação
+      port: 8501         # Porta do Service dentro do cluster
+      targetPort: 8501   # Porta no contêiner para onde o tráfego será encaminhado
+      nodePort: 30002    # Porta exposta no nó para acesso externo
